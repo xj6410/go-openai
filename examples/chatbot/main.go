@@ -30,7 +30,7 @@ func main() {
 			Role:    openai.ChatMessageRoleUser,
 			Content: s.Text(),
 		})
-		resp, err := client.CreateChatCompletion(context.Background(), req)
+		resp, err := client.CreateChatCompletion(context.Background(), req, nil)
 		if err != nil {
 			fmt.Printf("ChatCompletion error: %v\n", err)
 			continue
