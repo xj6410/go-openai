@@ -40,6 +40,7 @@ type ChatCompletionStream struct {
 func (c *Client) CreateChatCompletionStream(
 	ctx context.Context,
 	request ChatCompletionRequest,
+	header map[string]string,
 ) (stream *ChatCompletionStream, err error) {
 	urlSuffix := "/chat/completions"
 	if !checkEndpointSupportsModel(urlSuffix, request.Model) {
@@ -51,6 +52,9 @@ func (c *Client) CreateChatCompletionStream(
 	req, err := c.newStreamRequest(ctx, "POST", urlSuffix, request, request.Model)
 	if err != nil {
 		return
+	}
+	for k, v := range header {
+		req.Header.Set(k, v)
 	}
 
 	resp, err := c.config.HTTPClient.Do(req) //nolint:bodyclose // body is closed in stream.Close()
