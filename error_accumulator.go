@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"io"
 
-	utils "github.com/sashabaranov/go-openai/internal"
+	utils "github.com/xj6410/go-openai/internal"
 )
 
 type errorAccumulator interface {
