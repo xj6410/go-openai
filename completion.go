@@ -138,6 +138,7 @@ type CompletionResponse struct {
 func (c *Client) CreateCompletion(
 	ctx context.Context,
 	request CompletionRequest,
+	header map[string]string,
 ) (response CompletionResponse, err error) {
 	if request.Stream {
 		err = ErrCompletionStreamNotSupported
@@ -158,6 +159,10 @@ func (c *Client) CreateCompletion(
 	req, err := c.requestBuilder.Build(ctx, http.MethodPost, c.fullURL(urlSuffix, request.Model), request)
 	if err != nil {
 		return
+	}
+
+	for k, v := range header {
+		req.Header.Set(k, v)
 	}
 
 	err = c.sendRequest(req, &response)
